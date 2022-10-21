@@ -1,0 +1,1187 @@
+repeat wait() until game:IsLoaded()
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+if not LPH_OBFUSCATED then 
+    LPH_NO_VIRTUALIZE = function(...) return (...) end;
+    LPH_JIT_MAX = function(...) return (...) end;
+end
+
+function getStudLength(target)
+    if game.Players.LocalPlayer.Character and target then
+        distanceInStuds = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - target.Position).Magnitude
+    end
+    return distanceInStuds
+end
+
+local function tw(input, studspersecond, offset, bypass)
+
+
+        local distanceInStuds = 0
+
+        if game.Players.LocalPlayer.Character and input and not bypass then
+            pcall(function()
+                distanceInStuds = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - input.Position).Magnitude
+            end)
+        end
+    
+        if distanceInStuds > 1000 then return end
+
+
+
+    local char = game:GetService("Players").LocalPlayer.Character;
+    local input = input or error("input is nil")
+    local studspersecond = studspersecond or 1000
+    local offset = offset or CFrame.new(0,0,0)
+    local vec3, cframe
+
+ 
+    if typeof(input) == "table" then
+        vec3 = Vector3.new(unpack(input)); cframe = CFrame.new(unpack(input))
+    elseif typeof(input) ~= "Instance" then
+        return error("wrong format used")
+    end;
+    
+    Time = (char.HumanoidRootPart.Position - (vec3 or input.Position)).magnitude/studspersecond
+    local twn = game.TweenService:Create(char.HumanoidRootPart, TweenInfo.new(Time,Enum.EasingStyle.Linear), {CFrame = (cframe or input.CFrame) * offset})
+    --pcall(function() repeat game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true until game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored == true end)
+    twn:Play()
+    twn.Completed:Wait()
+    --pcall(function() repeat game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false until game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored == false end)
+ end
+
+_G.SendNotification = LPH_NO_VIRTUALIZE(function(title,text)
+    OrionLib:MakeNotification({ Name = tostring(title), Content = tostring(text), Image = "rbxassetid://4483345998", Time = 3 })
+end)
+
+
+function getYourDungeon()
+    for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        if v:FindFirstChild("VV") and v:FindFirstChild("VV").Value == game.Players.LocalPlayer.Name then
+            return v
+        end
+    end
+end
+
+function getYourHallowenDungeon()
+    for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        if v:FindFirstChild("AA") and v:FindFirstChild("AA").Value == game.Players.LocalPlayer.Name then
+            return v
+        end
+    end
+end
+
+
+if not game:GetService("Workspace"):FindFirstChild("A") then
+    local a = Instance.new("Part",game:GetService("Workspace"))
+    a.Material = "Neon"
+    a.BrickColor = BrickColor.new ("White")
+    a.Size = Vector3.new(10,0.5,10)
+    a.CFrame = (CFrame.new(-10958.4316, 103.607559, -17797.5742) * CFrame.new(45,4,-1.5)) * CFrame.new(0,-7,0)
+    a.Transparency = 0.2
+    a.Anchored = true
+    a.Name = "A"
+end
+
+if not game:GetService("Workspace"):FindFirstChild("B") then
+    local a = Instance.new("Part",game:GetService("Workspace"))
+    a.Material = "Neon"
+    a.BrickColor = BrickColor.new ("White")
+    a.Size = Vector3.new(10,2,10)
+    a.CFrame = (CFrame.new(-355.400848, 11479.79, -1542.8927) * CFrame.new(0,20,0)) * CFrame.new(0,0,0)
+    a.Transparency = 0
+    a.Anchored = true
+    a.Name = "B"
+end
+
+function TpToHallowenDungeon()
+
+    if not getYourHallowenDungeon() then
+
+        if getStudLength(game:GetService("Workspace"):FindFirstChild("B")) > 100 and not getYourHallowenDungeon() and not _G.EnteringHallowenDungeon then
+            repeat
+                pcall(function()
+                    if _G.Settings.Tween and not firetouchinterest then
+                        tw(game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP2.Focus, 20,CFrame.new(0,20,0))
+                        task.wait(1)
+                    elseif not firetouchinterest then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP2.Focus.CFrame * CFrame.new(0,13,0)
+                    end
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP2.Focus, 0)
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP2.Focus, 1)
+                end)
+                task.wait(1)
+            until game:GetService("Workspace").Maps:FindFirstChild("Graveyard") and game:GetService("Workspace").Maps.Graveyard:FindFirstChild("Brick") and getStudLength(game:GetService("Workspace"):FindFirstChild("B")) < 100
+        end
+
+        task.wait(1)
+
+        if getStudLength(game:GetService("Workspace"):FindFirstChild("B")) < 100 and not getYourHallowenDungeon() and not _G.EnteringHallowenDungeon then
+            pcall(function()
+                if _G.Settings.Tween then
+                    tw({-355.400848, 11479.79, -1542.8927},500,CFrame.new(0,20,0))
+                else
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-355.400848, 11479.79, -1542.8927) * CFrame.new(0,20,0)
+                end 
+            end)
+        end
+
+    end
+
+end
+
+
+
+function tpToDungeonEntrance()
+
+    if not getYourDungeon() then
+
+
+        if getStudLength(game:GetService("Workspace"):FindFirstChild("A")) > 100 and not getYourDungeon() and not _G.EnteringDungeon then
+            repeat
+                pcall(function()
+                    if _G.Settings.Tween and not firetouchinterest then
+                        tw(game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP.Focus, 20,CFrame.new(0,20,0))
+                        task.wait(1)
+                    elseif not firetouchinterest then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP.Focus.CFrame * CFrame.new(0,13,0)
+                    end
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP.Focus, 0)
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, game:GetService("Workspace")[game.Players.LocalPlayer.Name.."'s Base"].DungeonTP.Focus, 1)
+                end)
+                task.wait(1)
+            until game:GetService("Workspace").Maps:FindFirstChild("Magma Hills") and game:GetService("Workspace").Maps["Magma Hills"].FortressDoor:FindFirstChild("Brick") and getStudLength(game:GetService("Workspace"):FindFirstChild("A")) < 100
+        end
+
+        task.wait(1)
+
+        if getStudLength(game:GetService("Workspace"):FindFirstChild("A")) < 100 and not getYourDungeon() and not _G.EnteringDungeon then
+            pcall(function()
+                if _G.Settings.Tween then
+                    tw({-10958.4316, 103.607559, -17797.5742},40,CFrame.new(45,25,-1.5))
+                else
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10958.4316, 103.607559, -17797.5742) * CFrame.new(45,1.6,-1.5) * CFrame.new(0,-7,0)
+                end 
+            end)
+        end
+
+    end
+
+end
+
+
+if not isfolder("SFX") then
+    makefolder("SFX")
+end
+
+if not isfolder("SFX/"..game.Players.LocalPlayer.Name) then
+    makefolder("SFX/"..game.Players.LocalPlayer.Name)
+end 
+
+function updateTotalGem()
+    pcall(function()
+        local j
+        local HS = game:GetService("HttpService")
+        if writefile then
+            d = HS:JSONEncode(game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("MainGui"):WaitForChild("TopHolder"):WaitForChild("Gems"):WaitForChild("Price").Text:gsub(",",""))
+            writefile("SFX/"..game.Players.LocalPlayer.Name.."/TotalGems.json",d)
+        end
+    end)
+end
+
+
+function updateTotalArtifacts()
+
+    local artifacts = {}
+
+    pcall(function()
+
+
+        for i,v in ipairs(game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.MainGui.ArtifactMenu.Holder:GetChildren()) do
+            if v:FindFirstChild("Amount") then  
+                table.insert(artifacts,v.Amount.Text:split("x")[2])
+            end
+        end
+
+    end)
+
+    pcall(function()
+        local j
+        local HS = game:GetService("HttpService")
+        if writefile then
+            d = HS:JSONEncode(artifacts)
+            writefile("SFX/"..game.Players.LocalPlayer.Name.."/TotalArtifacts.json",d)
+        end
+    end)
+
+end
+
+
+local updJS = LPH_NO_VIRTUALIZE(function()
+    local j
+    local HS = game:GetService("HttpService")
+    if writefile then
+        d = HS:JSONEncode(_G.Settings)
+        writefile("SFX/"..game.Players.LocalPlayer.Name.."/Settings.json",d)
+    end
+end)
+
+
+_G.Settings = {
+    HallowenDungeon = false,
+    AutoDungeon = false,
+    Tween = false,
+    TweenSpeed = 80,
+    WebhookLink = "",
+    Soul = false
+}
+
+
+if readfile and isfile and isfile("SFX/"..game.Players.LocalPlayer.Name.."/Settings.json") then
+    local HS = game:GetService("HttpService")
+    _G.Settings = HS:JSONDecode(readfile("SFX/"..game.Players.LocalPlayer.Name.."/Settings.json"))
+end
+
+
+
+local Window = OrionLib:MakeWindow({ Name = "Sword Factory X", HidePremium = true, SaveConfig = false, ConfigFolder = "OrionTest", IntroText = "Script Made By Asian#9277" })
+
+local Farm = Window:MakeTab({ Name = "⚔️ Auto Farm", PremiumOnly = false })
+
+local Section = Farm:AddSection({ Name = "🎃 Hallowen Dungeon" })
+Section:AddToggle({ Name = "Auto Farming", Default = _G.Settings.HallowenDungeon, Color = Color3.fromRGB(0, 255, 0), Callback = function(newValue) _G.Settings.HallowenDungeon = newValue updJS() end })
+local Section = Farm:AddSection({ Name = "🌋 Magma Dungeon" })
+Section:AddToggle({ Name = "Auto Farming", Default = _G.Settings.AutoDungeon, Color = Color3.fromRGB(0, 255, 0), Callback = function(newValue) _G.Settings.AutoDungeon = newValue updJS() end })
+
+local Section = Farm:AddSection({ Name = "Tween Instead Of Teleport" })
+Section:AddToggle({ Name = "Tweening if You Get Kicked By Teleport ", Default = _G.Settings.Tween, Color = Color3.fromRGB(0, 255, 0),Callback = function(newValue) _G.Settings.Tween = newValue updJS() end })
+Section:AddSlider({ Name = "Tween Speed", Min = 1, Max = 150, Default = _G.Settings.TweenSpeed, Color = Color3.fromRGB(0, 255, 0), Increment = 1, ValueName = "", Callback = function(newValue) _G.Settings.TweenSpeed = newValue updJS() end })
+
+task.spawn(function()
+    task.wait(3)
+    pcall(function() updateTotalGem() end)
+    pcall(function() updateTotalArtifacts() end)
+end)
+
+local Section = Farm:AddSection({ Name = "Webhook" })
+Section:AddTextbox({ Name = "Webhook Link", Default = _G.Settings.WebHookLink, TextDisappear = false, Callback = function(newValue) _G.Settings.WebHookLink = newValue updJS() end })
+
+
+local Tab = Window:MakeTab({ Name = "🎁 Gift", PremiumOnly = false })
+
+function getHighestRQCM(Type,types)
+
+    local add = {
+        ["Rarity"] = "Rarities",
+        ["Quality"] = "Qualities",
+        ["Class"] = "Classes",
+        ["Mold"] = "Molds"
+    }
+
+    local daddy = {}
+
+    function getswordworth(value,thing)
+        for i,v in ipairs(require(game:GetService("ReplicatedStorage").SharedLibrary[add[value]]).List) do
+            if v.Name == thing then
+                return i
+            end
+        end
+    end
+
+    function getNameofworth(value,thing)
+        for i,v in ipairs(require(game:GetService("ReplicatedStorage").SharedLibrary[add[value]]).List) do
+            if i == thing then
+                return v.Name
+            end
+        end
+    end
+
+    _G.Best[Type] = -1
+
+    local ap = ""
+
+    for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.GiftsMenu.ScrollingFrame:GetChildren()) do
+        if v.Name == "Template" and v:FindFirstChild("Note") and v:FindFirstChild("Buy"):FindFirstChild("TextLabel").Text == "Claim!" then
+
+           pcall(function()
+                ap = (v.Note.Text:split(Type..": ")[2]:split(" |")[1])
+                if not ap:match(":") then
+
+
+                    local worth = getswordworth(Type,ap)
+
+                    if _G.Best[Type] < worth then
+                        _G.Best[Type] = worth
+                    end
+
+                end
+           end)
+
+        end
+    end
+
+
+    for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.GiftsMenu.ScrollingFrame:GetChildren()) do
+        if v.Name == "Template" and v:FindFirstChild("Note") then
+            local dadap = (v.Note.Text:split(Type..": ")[2]:split(" |")[1])
+            if getswordworth(Type,dadap) == _G.Best[Type] then
+                return v.Note.Text
+            end
+        end
+    end
+
+end
+
+local types = {"Rarity","Mold","Class"}
+
+_G.Best = {}
+
+for i = 1, #types do
+
+    local Section = Tab:AddSection({
+        Name = types[i]
+    })
+
+    local a = Section:AddParagraph("Best Sword By: "..types[i]," Rarity: : \nClass: \nMold: ")
+
+    Section:AddButton({
+        Name = "Find Best "..types[i].." From Gifts",
+        Callback = function()
+            pcall(function()
+                _G.Best[types[i]] = getHighestRQCM(types[i],types)
+                a:Set(_G.Best[types[i]])
+            end)
+        end    
+    })
+
+    
+    function getswordworth(value,thing)
+        local add = {
+            ["Rarity"] = "Rarities",
+            ["Quality"] = "Qualities",
+            ["Class"] = "Classes",
+            ["Mold"] = "Molds"
+        }
+    
+        for i,v in ipairs(require(game:GetService("ReplicatedStorage").SharedLibrary[add[value]]).List) do
+            warn(v.Name,thing)
+            if v.Name == thing then
+                return i
+            end
+        end
+    end
+
+    
+    Section:AddButton({
+        Name = "🎁 Claim Best "..types[i].." From Gifts",
+        Callback = function()  
+            pcall(function()   
+                for a,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.GiftsMenu.ScrollingFrame:GetChildren()) do
+                    if v.Name == "Template" and v:FindFirstChild("Note") and v:FindFirstChild("Buy"):FindFirstChild("TextLabel").Text == "Claim!" then
+                        pcall(function()
+                            
+
+                            if getswordworth(types[i],(v.Note.Text:split(types[i]..": ")[2]:split(" |")[1])) == getswordworth(types[i],(_G.Best[types[i]]:split(types[i]..": ")[2]:split(" |")[1])) then
+                                local button = v:FindFirstChild("Buy"):FindFirstChild("TextButton")
+                                local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
+                                for i,v in pairs(events) do
+                                    pcall(function()
+                                        for i,v in pairs(getconnections(button[v])) do
+                                            v:Fire()
+                                        end
+                                    end)
+                                end
+                            end
+                        end)
+                    end
+                end
+            end)
+        end    
+    })
+    
+end
+
+local Section = Tab:AddSection({
+	Name = "All Gifts"
+})
+
+Section:AddButton({
+    Name = "🗑 Claim All Gifts",
+    Callback = function()
+        pcall(function()
+            for a,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.GiftsMenu.ScrollingFrame:GetChildren()) do
+                if v.Name == "Template" and v:FindFirstChild("Note") and v:FindFirstChild("Buy"):FindFirstChild("TextLabel").Text == "Claim!" then
+                    local button = v:FindFirstChild("Buy"):FindFirstChild("TextButton")
+                    local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
+                    for i,v in pairs(events) do
+                        pcall(function()
+                            for i,v in pairs(getconnections(button[v])) do
+                                v:Fire()
+                            end
+                        end)
+                    end
+                end
+            end
+        end)
+    end
+})
+
+
+function _G.depositsoul()
+    wait (10)
+    game:GetService("ReplicatedStorage").Framework.RemoteFunction:InvokeServer(0,"SoulTankService","AddSouls",{})
+end
+
+
+local OtherTab = Window:MakeTab({ Name = "🎫 Other", PremiumOnly = false })
+local Section = OtherTab:AddSection({ Name = "Soul" })
+Section:AddToggle({ Name = "Deposit Soul", Default = _G.Settings.Soul, Color = Color3.fromRGB(0, 255, 0), Callback = function(newValue) _G.Settings.Soul = newValue  _G.depositsoul() end })
+
+
+
+function _G.StartHallowenDungeon()
+
+    if not _G.DoingHallowens then
+        pcall(function()
+            if not game:GetService("Workspace").Maps.Graveyard:FindFirstChild("Brick") and getStudLength(game:GetService("Workspace"):FindFirstChild("B")) > 100 then
+
+
+                pcall(function()
+                    if not firetouchinterest then
+                        if _G.Settings.Tween then
+                            tw({-355.400848, 11479.79, -1542.8927},_G.Settings.TweenSpeed,CFrame.new(0,20,0))
+                        else
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-355.400848, 11479.79, -1542.8927) * CFrame.new(0,20,0)
+                        end
+                    else
+                        TpToHallowenDungeon()
+                    end
+                end)
+            end
+        end)
+
+        function BrickBCheck()
+
+
+            if getStudLength(game:GetService("Workspace"):FindFirstChild("B")) > 100 and getStudLength(game:GetService("Workspace"):FindFirstChild("B")) < 250 then
+
+                for i = 1,1 do
+                    pcall(function()
+                        if not firetouchinterest then
+                            if _G.Settings.Tween then
+                                tw({-355.400848, 11479.79, -1542.8927},_G.Settings.TweenSpeed,CFrame.new(0,20,0))
+                            else
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-355.400848, 11479.79, -1542.8927) * CFrame.new(0,20,0)
+                            end
+                        else
+                            TpToHallowenDungeon()
+                        end
+                    end)
+                    task.wait(.1)
+                end
+
+            else
+
+                TpToHallowenDungeon()
+                
+            end
+
+            return game:GetService("Workspace").Maps.Graveyard.Brick.BillboardGui.Counter.Visible
+
+        end
+
+        repeat wait(3) until not BrickBCheck() 
+        _G.EnteringHallowenDungeon = true
+        repeat 
+            task.wait(.1)
+            if game:GetService("Workspace").Maps.Graveyard.Brick.BillboardGui.Counter.Visible == false then
+                pcall(function()
+                    if _G.Settings.Tween then
+                        tw(game:GetService("Workspace").Maps.Graveyard.DungeonMatchmaking.MatchmakingPad,80,CFrame.new(0,2,0))
+                    else
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Maps.Graveyard.DungeonMatchmaking.MatchmakingPad.CFrame * CFrame.new(0,2,0)
+                    end
+                    
+                end)
+            else
+                if getStudLength(game:GetService("Workspace"):FindFirstChild("B")) < 300 and getStudLength(game:GetService("Workspace").Maps.Graveyard.DungeonMatchmaking.MatchmakingPad) < 20 then
+                    tw({-355.400848, 11479.79, -1542.8927},80,CFrame.new(0,20,0),true)
+                end
+                break
+            end
+        until _G.EnteringHallowenDungeon == false
+        if _G.EnteringHallowenDungeon == false then
+            pcall(function() repeat wait(1) until getStudLength(game:GetService("Workspace").Maps.Graveyard.DungeonMatchmaking.MatchmakingPad) > 20  end)
+            _G.DoHallowenDungeon()
+        end
+    end
+end
+
+game:GetService("Workspace").ChildAdded:Connect(function(child)
+    if child.Name == "HalloweenTower" and _G.EnteringHallowenDungeon then
+        _G.EnteringHallowenDungeon = false
+        local Ow = Instance.new("StringValue",child)
+        Ow.Name = "AA"
+        Ow.Value = game.Players.LocalPlayer.Name
+    end
+end)
+
+
+
+function _G.DoHallowenDungeon()
+
+    if not _G.DoingHallowens then
+        _G.DoingHallowens = true
+    else
+        return
+    end
+
+    pcall(function() repeat wait(1) until getStudLength(game:GetService("Workspace").Maps.Graveyard.DungeonMatchmaking.MatchmakingPad) > 20  end)
+
+    repeat wait(1) warn("waiting for hallowen dung") until getYourHallowenDungeon()
+
+    if _G.Settings.Tween then
+        task.wait(1)
+    else
+        task.wait(1)
+    end
+
+
+    function killAllHallowensMobs()
+
+        for i,v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
+            if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid").Health > 0 and v.Name ~= "Noob" then
+                if v.Name == "Bimbo the Terrifier" then
+                    for i = 1,10 do
+                        pcall(function()
+                            if _G.Settings.Tween then
+                                tw(getYourHallowenDungeon().Start.Entrance.PlayerWalkTo,_G.Settings.TweenSpeed,CFrame.new(0,5,0))
+                                game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                            else
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getYourHallowenDungeon().Start.Entrance.PlayerWalkTo.CFrame * CFrame.new(0,5,0)
+                                game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                            end
+                        end)
+                        task.wait(0.1)
+                    end
+                    task.wait()
+                end
+                local b = nil
+                b = v
+                if b.Name ~= "Bimbo the Terrifier" then
+                    local closestMob = nil
+                    local closestDist = math.huge
+                    for i,v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
+                        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid").Health > 0 and v.Name ~= "Noob" then
+                            local a = getStudLength(v:FindFirstChild("HumanoidRootPart"))
+                            if a < closestDist then
+                                closestMob = v
+                                closestDist = a
+                            end
+                        end
+                    end
+                    b = closestMob
+                end
+                    pcall(function()
+                        repeat 
+                            pcall(function()
+                                if _G.Settings.Tween then
+                                    tw(b:FindFirstChild("HumanoidRootPart"),_G.Settings.TweenSpeed,CFrame.new(0,0,5))
+                                    game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                                else
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0,0,5)
+                                    game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                                end
+                                task.wait(.05)
+                                task.wait(.1)
+                            end)
+                        until b:FindFirstChild("DeathComplete") or b:FindFirstChild("Humanoid").Health <= 0
+                    end)
+            end
+        end
+    end
+
+    function killHallowensBoss()
+
+        function goThroughHallowens()
+            for i,v in ipairs(getYourHallowenDungeon():GetDescendants()) do
+                if v.Name == "ForceTeleportSpawn" or v.Name == "ForcePlayerTeleport" and v:IsA("Part") then
+                    pcall(function()
+                        if _G.Settings.Tween then
+                            tw(v,_G.Settings.TweenSpeed,CFrame.new(0,2,0))
+                        else
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,2,0)
+                        end
+                        task.wait(0.1)
+                    end)
+                end
+            end
+        end
+        
+        repeat pcall(function() goThroughHallowens() killAllHallowensMobs() end) until getYourHallowenDungeon():WaitForChild("EndModule"):FindFirstChild("Parts")
+
+        killAllHallowensMobs()
+        repeat 
+            killAllHallowensMobs()
+            pcall(function()
+                task.wait(1)
+                if _G.Settings.Tween then
+                    tw(getYourDungeon().EndModule.ForceTeleportSpawn,_G.Settings.TweenSpeed,CFrame.new(0,0,math.random(10,20)) * CFrame.new(0,10,0))
+                else
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = (getYourHallowenDungeon().EndModule.ForceTeleportSpawn.CFrame * CFrame.new(0,0,math.random(10,20))) * CFrame.new(0,10,0)
+                end
+            end)
+        until game:GetService("Workspace").Mobs:FindFirstChild("Bimbo the Terrifier")
+        killAllHallowensMobs()
+    end
+
+
+    function getAllHallowenChests()
+
+
+        for i,v in pairs(getYourHallowenDungeon().Map.MapFunctionalSection:GetChildren()) do
+        task.wait(.1)
+            if v:FindFirstChild("Chests") then
+                for i,v in ipairs(v.Chests:GetChildren()) do
+                    if not v:FindFirstChild("Lock") then
+                    local attempt = 0
+                    task.wait(.3)   
+                    local b = nil
+                    b = v
+                    pcall(function()
+                    local closestChest1 = nil
+                        local closestDist1 = math.huge
+                        for i,v in pairs(getYourHallowenDungeon().Map.MapFunctionalSection:GetChildren()) do
+                            if v:FindFirstChild("Chests") then
+                                for i,v in ipairs(v.Chests:GetChildren()) do
+                                    if not v:FindFirstChild("Lock") then
+                                        local a = getStudLength(v["Chest_Base"].Frame.Body)
+                                        if a < closestDist1 then
+                                            closestChest1 = v
+                                            closestDist1 = a
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end)
+
+                    repeat
+                        attempt += 1
+                        pcall(function()
+                        
+                            task.wait(.1)
+                            if _G.Settings.Tween then
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b.Chest_Lid.Frame.Lock.CFrame * CFrame.new(1,0,0)
+                            else
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b.Chest_Lid.Frame.Lock.CFrame * CFrame.new(1,0,0)
+                            end
+                        end)
+                            task.wait(.4)
+                            until b:FindFirstChild("Lock") or attempt >= 5
+                    end
+                end
+            end
+        end
+    end
+
+
+    function getPromptChests()
+
+
+        for i,v in pairs(getYourHallowenDungeon():GetDescendants()) do
+            if v.Name:find("Chest_Lid") and v:FindFirstChild("Body") then
+               local TargetPart = v:FindFirstChild("Body")
+               if TargetPart then
+                   local ProximityPrompt = v.Body:FindFirstChild("ChestKeyPrompt")
+                   if ProximityPrompt then
+                        wait (.6)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = TargetPart.CFrame * CFrame.new(0,3,0)
+                        task.wait(.25)
+                        fireproximityprompt(ProximityPrompt)
+                   end
+               end
+           end
+       end
+ 
+    end
+
+
+
+    function getLastHallowenChests()
+
+
+        for i,v in pairs(getYourHallowenDungeon():GetChildren()) do
+        task.wait(.1)
+            if v:FindFirstChild("Chests") then
+                for i,v in ipairs(v.Chests:GetChildren()) do
+                    if not v:FindFirstChild("Lock") then
+                        local attempt = 0
+                        task.wait(.3)   
+                        local c = nil
+                        c = v
+                            pcall(function()
+                            local closestChest = nil
+                                local closestDist = math.huge
+                                for i,v in pairs(getYourHallowenDungeon():GetChildren()) do
+                                    if v:FindFirstChild("Chests") then
+                                        for i,v in ipairs(v.Chests:GetChildren()) do
+                                            if not v:FindFirstChild("Lock") then
+                                                local a = getStudLength(v["Chest_Base"].Frame.Frame)
+                                                if a < closestDist then
+                                                closestChest = v
+                                                closestDist = a
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end)
+                            repeat
+                                attempt += 1
+                                pcall(function()
+                                    killAllHallowensMobs()
+                                    task.wait(.1)
+                                    if _G.Settings.Tween then
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = c.Chest_Lid.Frame.Lock.CFrame * CFrame.new(1,0,0)
+                                    else
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = c.Chest_Lid.Frame.Lock.CFrame * CFrame.new(1,0,0)
+                                    end
+                                end)
+                            task.wait(.4)
+                        until c:FindFirstChild("Lock") or attempt >= 5
+                    end
+                end
+            end
+        end
+        
+    end
+
+
+    
+
+ 
+    for i = 1,4 do
+        killAllHallowensMobs()
+    end
+    killHallowensBoss()
+    getPromptChests()
+    getAllHallowenChests()
+    getLastHallowenChests()
+
+
+
+    game:GetService("ReplicatedStorage").Framework.RemoteEvent:FireServer(0,"UIServer","Teleport",{})
+
+    repeat wait() until not getYourHallowenDungeon()
+
+    _G.DoingHallowens = false
+
+end
+
+
+
+function _G.StartDungeon()
+    if not _G.Doing then
+        pcall(function()
+            if not game:GetService("Workspace").Maps["Magma Hills"].FortressDoor:FindFirstChild("Brick") and getStudLength(game:GetService("Workspace"):FindFirstChild("A")) > 100 then
+
+                pcall(function()
+                    if not firetouchinterest then
+                        if _G.Settings.Tween then
+                            tw({-10958.4316, 103.607559, -17797.5742},_G.Settings.TweenSpeed,CFrame.new(0,20,0))
+                        else
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10958.4316, 103.607559, -17797.5742, 0.0791591406, 5.58598927e-08, -0.996861994, 1.24404139e-07, 1, 6.59144561e-08, 0.996861994, -1.29231481e-07, 0.0791591406) * CFrame.new(0,20,0)
+                        end
+                    else
+                        tpToDungeonEntrance()
+                    end
+                end)
+            end
+        end)
+
+        function brickCheck()
+
+            if getStudLength(game:GetService("Workspace"):FindFirstChild("A")) > 100 and getStudLength(game:GetService("Workspace"):FindFirstChild("A")) < 250 then
+
+                for i = 1,1 do
+                    pcall(function()
+                        if not firetouchinterest then
+                            if _G.Settings.Tween then
+                                tw({-10958.4316, 103.607559, -17797.5742},_G.Settings.TweenSpeed,CFrame.new(0,20,0))
+                            else
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10958.4316, 103.607559, -17797.5742, 0.0791591406, 5.58598927e-08, -0.996861994, 1.24404139e-07, 1, 6.59144561e-08, 0.996861994, -1.29231481e-07, 0.0791591406) * CFrame.new(0,20,0)
+                            end
+                        else
+                            tpToDungeonEntrance()
+                        end
+                    end)
+                    task.wait(.1)
+                end
+
+            else
+
+                tpToDungeonEntrance()
+                
+            end
+
+            return game:GetService("Workspace").Maps["Magma Hills"].FortressDoor.Brick.BillboardGui.Counter.Visible
+
+        end
+
+        repeat wait(3) until not brickCheck() 
+        _G.EnteringDungeon = true
+        repeat 
+            task.wait(.1)
+            if game:GetService("Workspace").Maps["Magma Hills"].FortressDoor.Brick.BillboardGui.Counter.Visible == false then
+                pcall(function()
+                    if _G.Settings.Tween then
+                        tw(game:GetService("Workspace").Maps["Magma Hills"].DungeonMatchmaking.MatchmakingPad,40,CFrame.new(0,2,0))
+                    else
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Maps["Magma Hills"].DungeonMatchmaking.MatchmakingPad.CFrame * CFrame.new(0,2,0)
+                    end
+                    
+                end)
+            else
+                if getStudLength(game:GetService("Workspace"):FindFirstChild("A")) < 300 and getStudLength(game:GetService("Workspace").Maps["Magma Hills"].DungeonMatchmaking.MatchmakingPad) < 20 then
+                    tw({-10958.4316, 103.607559, -17797.5742},40,CFrame.new(0,20,0),true)
+                end
+                break
+            end
+        until _G.EnteringDungeon == false
+        if _G.EnteringDungeon == false then
+            pcall(function() repeat wait(1) until getStudLength(game:GetService("Workspace").Maps["Magma Hills"].DungeonMatchmaking.MatchmakingPad) > 20  end)
+            _G.DoDungeon()
+        end
+    end
+end
+
+game:GetService("Workspace").ChildAdded:Connect(function(child)
+    if child.Name == "MagmaDungeon" and _G.EnteringDungeon then
+        _G.EnteringDungeon = false
+        local Ow = Instance.new("StringValue",child)
+        Ow.Name = "VV"
+        Ow.Value = game.Players.LocalPlayer.Name
+    end
+end)
+
+
+
+function _G.DoDungeon()
+
+    if not _G.Doing then
+        _G.Doing = true
+    else
+        return
+    end
+
+    pcall(function() repeat wait(1) until getStudLength(game:GetService("Workspace").Maps["Magma Hills"].DungeonMatchmaking.MatchmakingPad) > 20  end)
+
+    repeat wait(1) warn("waiting for dung") until getYourDungeon()
+
+    if _G.Settings.Tween then
+        task.wait(5)
+    else
+        task.wait(1)
+    end
+
+
+
+    function killAllMobs()
+        for i,v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
+            if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid").Health > 0 and v.Name ~= "Noob" then
+                if v.Name == "The Abomination" and v.Humanoid.Health > 0 then
+                        for i = 1,10 do
+                            pcall(function()
+                                if _G.Settings.Tween then
+                                    tw(b:FindFirstChild("HumanoidRootPart"),_G.Settings.TweenSpeed,CFrame.new(0,0,5))
+                                        game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                                else
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0,0,5)
+                                        game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                                end
+                            end)
+                            task.wait(0.1)
+                        end
+                        task.wait(0.1)
+                    end
+                local b = nil
+                b = v
+                if b.Name ~= "The Abomination" then
+                    local closestMob = nil
+                    local closestDist = math.huge
+                    for i,v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
+                        if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("Humanoid").Health > 0 and v.Name ~= "Noob" then
+                            local a = getStudLength(v:FindFirstChild("HumanoidRootPart"))
+                            if a < closestDist then
+                            closestMob = v
+                            closestDist = a
+                            end
+                        end
+                    end
+                    b = closestMob
+                end
+                    pcall(function()
+                        repeat 
+                            pcall(function()
+                                if _G.Settings.Tween then
+                                    tw(b:FindFirstChild("HumanoidRootPart"),_G.Settings.TweenSpeed,CFrame.new(0,0,5))
+                                        game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                                else
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0,0,5)
+                                        game:GetService("Players").LocalPlayer.Character.Sword.SwordScriptNew.Attack:FireServer("Attack",false)
+                                end
+                                task.wait(.05)
+                                task.wait(.1)
+                            end)
+                        until b:FindFirstChild("DeathComplete") or b:FindFirstChild("Humanoid").Health <= 0
+                    end)
+            end
+        end
+    end
+
+    function killBoss()
+
+        function goThroughEveryting()
+            for i,v in ipairs(getYourDungeon():GetDescendants()) do
+                if v.Name == "Start" or v.Name == "End" and v:IsA("Part") then
+                    pcall(function()
+                        if _G.Settings.Tween then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,2,0)
+                        else
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,2,0)
+                        end
+                        task.wait(0.1)
+                    end)
+                end
+            end
+        end
+        
+        repeat pcall(function() goThroughEveryting() killAllMobs() end) until getYourDungeon():WaitForChild("EndModule"):FindFirstChild("Start")
+
+        killAllMobs()
+        repeat 
+            killAllMobs()
+            pcall(function()
+                task.wait(1)
+                if _G.Settings.Tween then
+                    tw(getYourDungeon().EndModule.Start,_G.Settings.TweenSpeed,CFrame.new(0,0,math.random(10,20)) * CFrame.new(0,10,0))
+                else
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = (getYourDungeon().EndModule.Start.CFrame * CFrame.new(0,0,math.random(10,20))) * CFrame.new(0,10,0)
+                end
+            end)
+        until game:GetService("Workspace").Mobs:FindFirstChild("The Abomination")
+        killAllMobs()
+    end
+
+    function getAllChests()
+        for i,v in pairs(getYourDungeon():GetChildren()) do
+            task.wait(.1)
+            if v:FindFirstChild("Chests") then
+                for i,v in ipairs(v.Chests:GetChildren()) do
+                    if not v:FindFirstChild("Lock") then
+                        local attempt = 0
+                        task.wait(.3)
+                        local b = nil
+                        b = v
+                        pcall(function()
+                            local closestChest = nil
+                            local closestDist = math.huge
+                            for i,v in pairs(getYourDungeon():GetChildren()) do
+                                if v:FindFirstChild("Chests") then
+                                    for i,v in ipairs(v.Chests:GetChildren()) do
+                                        if not v:FindFirstChild("Lock") then
+                                            local a = getStudLength(v["Chest_Base"].Frame.Frame)
+                                            if a < closestDist then
+                                                closestChest = v
+                                                closestDist = a
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end)
+                            repeat
+                                attempt += 1
+                                pcall(function()
+                                    killAllMobs()
+                                    task.wait(.1)
+                                    if _G.Settings.Tween then
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b.Chest_Lid.Frame.Lock.CFrame * CFrame.new(1,0,0)
+                                    else
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = b.Chest_Lid.Frame.Lock.CFrame * CFrame.new(1,0,0)
+                                    end
+                                end)
+                            task.wait(.4)
+                        until b:FindFirstChild("Lock") or attempt >= 5
+                    end
+                end
+            end
+        end
+    end
+
+    for i = 1,4 do
+        killAllMobs()
+    end
+    killBoss()
+    getAllChests()
+
+
+    game:GetService("ReplicatedStorage").Framework.RemoteEvent:FireServer(0,"UIServer","Teleport",{})
+
+    repeat wait() until not getYourDungeon()
+
+    _G.Doing = false
+
+end
+
+_G.WebHook = LPH_JIT_MAX(function(oldGems,newGems,oldLegArt,newLegArt,oldImpArt,newImpArt)
+	pcall(function()
+		local url = tostring(_G.Settings.WebHookLink)
+		if url == "" then return end
+
+        function comma_value(amount)
+            local formatted = amount
+            while true do  
+              formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+              if (k==0) then
+                break
+              end
+            end
+            return formatted
+        end
+
+        local totalGem = "Error!"
+        local totalLegArt = "Error!"
+        local totalImpArt = "Error!"
+
+
+        local a = listfiles("SFX")
+
+        for i,v in pairs(a) do
+            
+            local player = v:split("\\")[2]
+
+            local playerGem = 0
+            local playerArtifacts = {"0","0","0","0","0"}
+
+            local HS = game:GetService("HttpService")
+            if readfile and isfile and isfile("SFX/"..player.."/TotalGems.json") then
+                playerGem = HS:JSONDecode(readfile("SFX/"..player.."/TotalGems.json"))
+            end
+
+            local HS = game:GetService("HttpService")
+            if readfile and isfile and isfile("SFX/"..player.."/TotalArtifacts.json") then
+                playerArtifacts = HS:JSONDecode(readfile("SFX/"..player.."/TotalArtifacts.json"))
+            end
+
+            if totalGem == "Error!" then
+                totalGem = playerGem
+            else
+                totalGem += playerGem
+            end
+
+            if totalLegArt == "Error!" then
+                totalLegArt = tonumber(playerArtifacts[4])
+            else
+                totalLegArt += tonumber(playerArtifacts[4])
+            end
+
+            if totalImpArt == "Error!" then
+                totalImpArt = tonumber(playerArtifacts[5])
+            else
+                totalImpArt += tonumber(playerArtifacts[5])
+            end
+
+        end
+
+
+        local profitGem = newGems - oldGems
+        local profitLegArt = newLegArt - oldLegArt
+        local profitImpArt = newImpArt - oldImpArt
+
+        local data = {
+            ["username"]= " abc ",
+            ["avatar_url"]= "https://cdn.discordapp.com/attachments/912431345765081148/1023696332638134403/unknown-removebg-preview.png",
+            ["content"]= "",
+            ["embeds"]= {
+              {
+                ["color"]= 0,
+                ["description"]= "~ **Hello Baby Girl - ||"..game.Players.LocalPlayer.Name.."||**\n\n~ **Here Are Your Stats ;) - ||"..game.Players.LocalPlayer.Name.."||**\n\n- Gem Gain: ** "..comma_value(profitGem).."+**\n- Legendary Artifact Gain: ** "..comma_value(profitLegArt).."+**\n- Impossible Artifact Gain: **"..comma_value(profitImpArt).."+ **\n\n- Total Leg Artifacts On All Accounts: ** "..comma_value(totalLegArt).."**\n- Total Imp Artifacts On All Accounts: ** "..comma_value(totalImpArt).." **\n- Total Gems On All Accounts: ** "..comma_value(totalGem).." **\n\n\n~ **Have Sex With Me Later OwO~ - ||"..game.Players.LocalPlayer.Name.."||**\n\n",
+                ["timestamp"]= "",
+                ["author"]= {
+                  ["name"]= "I'm So Sexy, Marry Me!",
+                  ["url"]= "",
+                  ["icon_url"]= "https://cdn.discordapp.com/attachments/912431345765081148/1023696455715786863/unknown.png"
+                },
+                ["image"]= {},
+                ["thumbnail"]= {},
+                ["footer"] ={},
+                ["fields"] = {}
+              }
+            },
+            ["components"] = {}
+          }
+
+		local bigTiddieGothGirl = game:GetService("HttpService"):JSONEncode(data)
+
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local pornhub = {Url = url, Body = bigTiddieGothGirl, Method = "POST", Headers = headers}
+		warn("Sending webhook notification...")
+		request(pornhub)
+	end)
+end)
+
+
+
+task.spawn(function()
+    while task.wait() do
+        task.wait(3)
+        if _G.Settings.AutoDungeon then
+                _G.StartDungeon()
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        task.wait(3)
+        if _G.Settings.HallowenDungeon then
+                _G.StartHallowenDungeon()
+        end
+    end
+end)
+
+task.spawn(function()
+    if tostring(_G.Settings.WebHookLink) ~= "" then
+        while task.wait(1) do
+            repeat wait(1) until _G.Doing
+            local oldGems = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.TopHolder.Gems.Price.Text:gsub(",","")
+            local oldLegArt = game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.MainGui.ArtifactMenu.Holder.Legendary.Amount.Text:split("x")[2]
+            local oldImpArt = game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.MainGui.ArtifactMenu.Holder.Impossible.Amount.Text:split("x")[2]
+            repeat wait(1) until not _G.Doing
+            local newGems = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.TopHolder.Gems.Price.Text:gsub(",","")
+            local newLegArt = game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.MainGui.ArtifactMenu.Holder.Legendary.Amount.Text:split("x")[2]
+            local newImpArt = game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.MainGui.ArtifactMenu.Holder.Impossible.Amount.Text:split("x")[2]
+            pcall(function() updateTotalGem() end)
+            pcall(function() updateTotalArtifacts() end)
+            pcall(function() _G.WebHook(tonumber(oldGems),tonumber(newGems),tonumber(oldLegArt),tonumber(newLegArt),tonumber(oldImpArt),tonumber(newImpArt)) end)
+        end
+    end
+end)
+
+
+task.spawn(function()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:connect(function()
+        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    end)
+end)
+
+
+
+
+OrionLib:Init()
