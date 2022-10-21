@@ -249,13 +249,13 @@ local Window = OrionLib:MakeWindow({ Name = "Sword Factory X", HidePremium = tru
 local Farm = Window:MakeTab({ Name = "⚔️ Auto Farm", PremiumOnly = false })
 
 local Section = Farm:AddSection({ Name = "🎃 Hallowen Dungeon" })
-Section:AddToggle({ Name = "Auto Farming", Default = _G.Settings.HallowenDungeon, Color = Color3.fromRGB(0, 255, 0), Callback = function(newValue) _G.Settings.HallowenDungeon = newValue updJS() end })
+Section:AddToggle({ Name = "Auto Farming", Default = _G.Settings.HallowenDungeon, Color = Color3.fromRGB(255, 130, 0), Callback = function(newValue) _G.Settings.HallowenDungeon = newValue updJS() end })
 local Section = Farm:AddSection({ Name = "🌋 Magma Dungeon" })
-Section:AddToggle({ Name = "Auto Farming", Default = _G.Settings.AutoDungeon, Color = Color3.fromRGB(0, 255, 0), Callback = function(newValue) _G.Settings.AutoDungeon = newValue updJS() end })
+Section:AddToggle({ Name = "Auto Farming", Default = _G.Settings.AutoDungeon, Color = Color3.fromRGB(255, 130, 0), Callback = function(newValue) _G.Settings.AutoDungeon = newValue updJS() end })
 
 local Section = Farm:AddSection({ Name = "Tween Instead Of Teleport" })
-Section:AddToggle({ Name = "Tweening if You Get Kicked By Teleport ", Default = _G.Settings.Tween, Color = Color3.fromRGB(0, 255, 0),Callback = function(newValue) _G.Settings.Tween = newValue updJS() end })
-Section:AddSlider({ Name = "Tween Speed", Min = 1, Max = 150, Default = _G.Settings.TweenSpeed, Color = Color3.fromRGB(0, 255, 0), Increment = 1, ValueName = "", Callback = function(newValue) _G.Settings.TweenSpeed = newValue updJS() end })
+Section:AddToggle({ Name = "Tweening if You Get Kicked By Teleport ", Default = _G.Settings.Tween, Color = Color3.fromRGB(255, 130, 0),Callback = function(newValue) _G.Settings.Tween = newValue updJS() end })
+Section:AddSlider({ Name = "Tween Speed", Min = 1, Max = 150, Default = _G.Settings.TweenSpeed, Color = Color3.fromRGB(255, 130, 0), Increment = 1, ValueName = "", Callback = function(newValue) _G.Settings.TweenSpeed = newValue updJS() end })
 
 task.spawn(function()
     task.wait(3)
@@ -435,7 +435,7 @@ end
 
 local OtherTab = Window:MakeTab({ Name = "🎫 Other", PremiumOnly = false })
 local Section = OtherTab:AddSection({ Name = "Soul" })
-Section:AddToggle({ Name = "Deposit Soul", Default = _G.Settings.Soul, Color = Color3.fromRGB(0, 255, 0), Callback = function(newValue) _G.Settings.Soul = newValue  _G.depositsoul() end })
+Section:AddToggle({ Name = "Deposit Soul", Default = _G.Settings.Soul, Color = Color3.fromRGB(255, 130, 0), Callback = function(newValue) _G.Settings.Soul = newValue  _G.depositsoul() end })
 
 
 
